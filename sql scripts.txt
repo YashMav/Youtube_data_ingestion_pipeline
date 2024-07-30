@@ -1,0 +1,12 @@
+ CREATE TABLE "HR"."PLAYLIST_STG"
+   (	"PLAYLIST_ID" VARCHAR2(50 CHAR),
+	"VIDEO_ID" VARCHAR2(50 CHAR),
+	"VIDEO_NAME" VARCHAR2(4000 CHAR),
+	"VIDEO_DURATION" VARCHAR2(50 CHAR)
+   )  ;
+
+ -- query for the total duration of a playlist
+ with total_seconds as
+ (select playlist_id,sum(video_duration) tot_sum    from PLAYLIST_STG group by playlist_id )
+ select playlist_id , trunc(trunc(tot_sum/60)/60)||':'||mod(trunc(tot_sum/60),60)||':'||mod(tot_sum,60)  hours_mins_seconds
+ from total_seconds;
